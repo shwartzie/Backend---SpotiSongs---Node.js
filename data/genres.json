@@ -2,62 +2,74 @@
     {
         "id": "",
         "name": "Podcasts",
-        "imageUrl": ""
+        "imageUrl": "https://i.scdn.co/image/567158eb895ad26718a814345af0fc43ee785ec5",
+        "backgroundColor":"#e13300"
     },
     {
         "id": "",
         "name": "Made For You",
-        "imageUrl": ""
+        "imageUrl": "https://t.scdn.co/images/ea364e99656e46a096ea1df50f581efe",
+        "backgroundColor":"rgb(30, 50, 100)"
     },
     {
         "id": "",
         "name": "New relaeses",
-        "imageUrl": ""
+        "imageUrl": "https://i.scdn.co/image/ab67706f000000027ea4d505212b9de1f72c5112",
+        "backgroundColor":"rgb(232, 17, 91)"
     },
     {
         "id": "",
         "name": "Pop",
-        "imageUrl": ""
+        "imageUrl": "https://i.scdn.co/image/ab67fb8200005cafa862ab80dd85682b37c4e768",
+        "backgroundColor":"rgb(20, 138, 8)"
     },
     {
         "id": "",
         "name": "Hip-Hop",
-        "imageUrl": ""
+        "imageUrl": "https://i.scdn.co/image/ab67fb8200005caf7e11c8413dc33c00740579c1",
+        "backgroundColor":"rgb(188, 89, 0)"
     },
     {
         "id": "",
         "name": "Rock",
-        "imageUrl": ""
+        "imageUrl": "https://i.scdn.co/image/ab67fb8200005cafae7e69beb88f16969641b53e",
+        "backgroundColor":"rgb(233, 20, 41)"
     },
     {
         "id": "",
         "name": "Latin",
-        "imageUrl": ""
+        "imageUrl": "https://i.scdn.co/image/ab67fb8200005cafa59f90c077c9f618fd0dde30",
+        "backgroundColor":"rgb(225, 17, 140)"
     },
     {
         "id": "",
         "name": "Charts",
-        "imageUrl": ""
+        "imageUrl": "https://charts-images.scdn.co/assets/locale_en/regional/weekly/region_global_default.jpg",
+        "backgroundColor":"rgb(141, 103, 171)"
     },
     {
         "id": "",
         "name": "Live Events",
-        "imageUrl": ""
+        "imageUrl": "https://concerts.spotifycdn.com/images/live-events_category-image.jpg",
+        "backgroundColor":"rgb(115, 88, 255)"
     },
     {
         "id": "",
         "name": "Dance/Electronic",
-        "imageUrl": ""
+        "imageUrl": "https://i.scdn.co/image/ab67fb8200005cafdfdaac1cf9574a196ca25196",
+        "backgroundColor":"rgb(216, 64, 0)"
     },
     {
         "id": "",
         "name": "Mood",
-        "imageUrl": ""
+        "imageUrl": "https://i.scdn.co/image/ab67fb8200005caf271f9d895003c5f5561c1354",
+        "backgroundColor":"rgb(225, 17, 140)"
     },
     {
         "id": "",
         "name": "Indie",
-        "imageUrl": ""
+        "imageUrl": "https://i.scdn.co/image/ab67fb8200005cafa1a252e3a815b65778d8c2aa",
+        "backgroundColor":"rgb(233, 20, 41)"
     },
     {
         "id": "",
