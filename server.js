@@ -6,7 +6,7 @@ const cookieParser = require('cookie-parser');
 const app = express();
 const http = require('http').createServer(app);
 const bodyParser = require('body-parser');
-
+require('dotenv').config();
 // Express App Config
 app.use(cookieParser());
 app.use(express.json());
@@ -32,21 +32,21 @@ if (process.env.NODE_ENV === 'production') {
 	app.use(cors(corsOptions));
 }
 
-const genreRoutes = require('./api/genres/genres.routes.js')
+const genreRoutes = require('./api/genres/genres.routes')
 app.use('/api/genres', genreRoutes);
 
-// const authRoutes = require('./api/auth/auth.routes');
-// const userRoutes = require('./api/user/user.routes');
-// const reportRoutes = require('./api/report/report.routes');
+const authRoutes = require('./api/auth/auth.routes');
+app.use('/api/auth', authRoutes);
+
+const userRoutes = require('./api/user/user.routes');
+app.use('/api/user', userRoutes);
+
 // const { setupSocketAPI } = require('./services/socket.service');
 
 // routes
 // const setupAsyncLocalStorage = require('./middlewares/setupAls.middleware')
 // app.all('*', setupAsyncLocalStorage)
 
-// app.use('/api/auth', authRoutes);
-// app.use('/api/user', userRoutes);
-// app.use('/api/report', reportRoutes);
 // setupSocketAPI(http);
 
 // Make every server-side-route to match the index.html
