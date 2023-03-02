@@ -14,7 +14,7 @@ module.exports = {
 
 async function loginWithSpotify(request, response) {
     console.log("trying to login with spotify");
-
+	
     const { code } = request.body;
     if (!code) {
         response.status(400).json({ message: "No code provided" });

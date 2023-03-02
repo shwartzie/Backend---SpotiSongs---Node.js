@@ -18,7 +18,6 @@ async function query() {
 function readFile() {
     let rawdata = fs.readFileSync(filePath);
     let genres = JSON.parse(rawdata);
-    console.log("genres", genres);
     return genres;
 }
 
