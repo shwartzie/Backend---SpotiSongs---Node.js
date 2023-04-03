@@ -24,7 +24,8 @@
 		"request": "^2.88.2",
 		"rgb-hex": "^4.0.0",
 		"socket.io": "^4.2.0",
-		"spotify-web-api-node": "^5.0.2"
+		"spotify-web-api-node": "^5.0.2",
+		"nodemon": "1.18.10"
 	},
 	"devDependencies": {
 		"nodemon": "1.18.10"
