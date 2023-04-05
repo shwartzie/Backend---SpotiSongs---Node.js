@@ -4,7 +4,8 @@
 	"description": "production ready server",
 	"main": "server.js",
 	"scripts": {
-		"start": "nodemon server.js",
+		"start": "npm server.js",
+		"build": "npm build",
 		"_comment": "add this before deployment - node server.js",
 		"server:dev": "set NODE_ENV=development&&nodemon server.js",
 		"server:prod": "set NODE_ENV=production&&node server.js"
@@ -12,6 +13,7 @@
 	"author": "Me",
 	"license": "ISC",
 	"dependencies": {
+		"express":"^4.18.2",
 		"bcrypt": "^5.0.1",
 		"cookie-parser": "^1.4.6",
 		"cors": "^2.8.5",
@@ -24,7 +26,8 @@
 		"request": "^2.88.2",
 		"rgb-hex": "^4.0.0",
 		"socket.io": "^4.2.0",
-		"spotify-web-api-node": "^5.0.2"
+		"spotify-web-api-node": "^5.0.2",
+		"nodemon": "1.18.10"
 	},
 	"devDependencies": {
 		"nodemon": "1.18.10"
