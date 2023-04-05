@@ -27,12 +27,14 @@ if (process.env.NODE_ENV === 'production') {
 			'http://127.0.0.1:3001/'
 		],
 		credentials: true,
-		exposedHeaders: ['set-cookie']
+		exposedHeaders: ['set-cookie'],
 	};
 	app.use(cors(corsOptions));
+
+
 }
 
-const genreRoutes = require('./api/genres/genres.routes')
+const genreRoutes = require('./api/genres/genres.routes');
 app.use('/api/genres', genreRoutes);
 
 const authRoutes = require('./api/auth/auth.routes');
@@ -41,6 +43,8 @@ app.use('/api/auth', authRoutes);
 const userRoutes = require('./api/user/user.routes');
 app.use('/api/user', userRoutes);
 
+const songsRoutes = require('./api/songs/songs.routes');
+app.use('/api/songs', songsRoutes);
 // const { setupSocketAPI } = require('./services/socket.service');
 
 // routes

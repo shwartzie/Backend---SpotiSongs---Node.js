@@ -13,8 +13,8 @@ module.exports = {
 };
 
 async function loginWithSpotify(request, response) {
-    console.log("trying to login with spotify");
-	
+    console.info("Trying to login with spotify");
+
     const { code } = request.body;
     if (!code) {
         response.status(400).json({ message: "No code provided" });
@@ -27,18 +27,22 @@ async function loginWithSpotify(request, response) {
         clientSecret: process.env.SPOTIFY_CLIENT_SECRET,
     });
 
+    // console.log("spotifyApi", spotifyApi);
+
     const { body } = await spotifyApi.authorizationCodeGrant(code);
+
     const result = {
         accessToken: body.access_token,
         refreshToken: body.refresh_token,
         expiresIn: body.expires_in,
     };
+
     response.status(200).send({ ...result });
 }
 
 async function getRefreshToken(request, response) {
     const { refreshToken } = request.body;
-    console.log("trying to getRefreshToken");
+    console.info("trying to getRefreshToken");
     try {
         const spotifyApi = new SpotifyWebApi({
             redirectUri: process.env.REDIRECT_URI,
