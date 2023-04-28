@@ -34,10 +34,8 @@ async function query(collectionName) {
 
 async function getById(userId) {
     try {
-        const collection = await dbService.getCollection("users");
-        // delete user.password;
-
-        // return user;
+        const user = knex.select('uid').from('users').where({ uid: userId });
+        return user;
     } catch (error) {
         logger.error(`while finding user by id: ${userId}`, error);
         throw error;
@@ -83,18 +81,10 @@ async function update({ _id, fullname, imgUrl, isJoined }) {
     }
 }
 
-async function add(user) {
+async function add(userToAdd) {
     try {
-        // peek only updatable fields!
-        const userToAdd = {
-            username: user.username,
-            password: user.password,
-            fullname: user.fullname,
-            imgUrl: user.imgUrl,
-        };
-        const collection = await dbService.getCollection("usersDemo");
-        await collection.insertOne(userToAdd);
-        return userToAdd;
+        const user = await knex('users').insert(userToAdd);
+        return user;
     } catch (error) {
         logger.error("cannot insert user", error);
         throw error;

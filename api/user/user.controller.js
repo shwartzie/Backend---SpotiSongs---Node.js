@@ -10,18 +10,29 @@ module.exports = {
     updateUser,
     logout,
     getUsers,
+    addUser
 };
 
 async function getUser(request, response) {
     try {
         const user = await userService.getById(request.params.id);
-        response.send(user);
+        response.send(user).status(200);
     } catch (error) {
         logger.error("Failed to get user", error);
         response.status(500).send({ error: "Failed to get user" });
     }
 }
 
+async function addUser(request, response) {
+    try {
+        console.info("Adding user")
+        const user = await userService.add(request.params.id);
+        response.send(user).status(200);
+    } catch (error) {
+        logger.error("Failed to signup user", error);
+        response.status(500).send({ error: "Failed to signup user" });
+    }
+}
 
 async function getUsers(request, response) {
     try {
