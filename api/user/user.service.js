@@ -10,6 +10,7 @@ module.exports = {
     remove,
     update,
     add,
+    getUserSchemaById
 };
 
 async function query(collectionName) {
@@ -34,13 +35,30 @@ async function query(collectionName) {
 
 async function getById(userId) {
     try {
-        const user = knex.select('uid').from('users').where({ uid: userId });
-        return user;
+        const user = await knex('users')
+            .columns('id')
+            .where({ id: userId });
+        return user[0];
     } catch (error) {
         logger.error(`while finding user by id: ${userId}`, error);
         throw error;
     }
 }
+
+async function getUserSchemaById(userId) {
+    try {
+        const user = await knex('users')
+            .columns('id', 'fullname', 'email', 'country',
+                'href', 'images', 'product', 'uri', 'followers')
+            .where({ id: userId });
+        return user[0];
+    } catch (error) {
+        logger.error(`while finding user by id: ${userId}`, error);
+        throw error;
+    }
+}
+
+
 async function getByUsername(username, password) {
     try {
         const user = await knex("users").select("*").where({ username, password });
@@ -83,8 +101,37 @@ async function update({ _id, fullname, imgUrl, isJoined }) {
 
 async function add(userToAdd) {
     try {
-        const user = await knex('users').insert(userToAdd);
-        return user;
+        // console.log('userToAdd.external_urls.spotify ------------', userToAdd.external_urls.spotify);
+        return knex('users')
+            .columns('id', 'fullname', 'email', 'country',
+                'href', 'images', 'product', 'uri', 'followers'
+            )
+            .insert({
+                id: userToAdd.id,
+                fullname: userToAdd.display_name,
+                email: userToAdd.email,
+                country: userToAdd.country,
+                href: userToAdd.href,
+                images: JSON.stringify(userToAdd.images),
+                product: userToAdd.product,
+                uri: userToAdd.uri,
+                followers: JSON.stringify(userToAdd.followers)
+            }).then(({ oid }) => {
+                console.log('after insert', oid);
+                //get user by id
+                knex('users')
+                    .select({
+                        fullname: 'fullname'
+                    }).where({ id: oid })
+                    .then((user) => res.json(user[0])
+                    ).catch(error => {
+                        console.error(error);
+                        return error;
+                    });
+            }).catch(error => {
+                console.error(error);
+                return error;
+            });
     } catch (error) {
         logger.error("cannot insert user", error);
         throw error;

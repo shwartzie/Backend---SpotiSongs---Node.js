@@ -10,24 +10,46 @@ module.exports = {
     updateUser,
     logout,
     getUsers,
-    addUser
+    addUser,
+    generateToken
 };
 
-async function getUser(request, response) {
+async function getUser(request, response, next) {
     try {
-        const user = await userService.getById(request.params.id);
-        response.send(user).status(200);
+        console.log(request.query.isSchema)
+        if (request.query.isSchema) {
+            const user = await userService.getUserSchemaById(request.params.id);
+            console.log('getUserSchemaById', user);
+            request.user = { ...user };
+            next();
+        } else {
+            const user = await userService.getById(request.params.id);
+            if (!user) response.status(204);
+            console.log('getUserById', user);
+            response.send({ ...user }).status(200);
+        }
+
     } catch (error) {
         logger.error("Failed to get user", error);
-        response.status(500).send({ error: "Failed to get user" });
+        response.status(204).send({ error: "Failed to get user" });
+    }
+}
+
+async function generateToken(request, response) {
+    try {
+        console.info("generating Token !! ");
+        response.json("demo_token").status(200);
+    } catch (error) {
+        logger.error("Failed to get user", error);
+        response.status(204).send({ error: "Failed to get user" });
     }
 }
 
 async function addUser(request, response) {
     try {
-        console.info("Adding user")
-        const user = await userService.add(request.params.id);
-        response.send(user).status(200);
+        console.info("Adding user");
+        const user = await userService.add(request.body);
+        response.status(200).send({ ...user });
     } catch (error) {
         logger.error("Failed to signup user", error);
         response.status(500).send({ error: "Failed to signup user" });
