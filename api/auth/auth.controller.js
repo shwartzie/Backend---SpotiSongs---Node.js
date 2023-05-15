@@ -3,6 +3,7 @@ const logger = require("../../services/logger.service");
 const userService = require("../user/user.service");
 const utilService = require("../../services/util.service");
 const SpotifyWebApi = require("spotify-web-api-node");
+const jwt = require("jsonwebtoken");
 
 module.exports = {
     login,
@@ -10,8 +11,19 @@ module.exports = {
     logout,
     loginWithSpotify,
     getRefreshToken,
+    isTokenValid
 };
 
+async function isTokenValid(request, response, next) {
+    logger.info("isTokenValid",request)
+    const header = request.headers['authorization'];
+    const token = header && header.split(' ')[1];
+    if (!token) return response.status(401).json({ error: "token not found" });
+    jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (error, user) => {
+        if (!error) return response.status(403).json(error);
+        response.status(200).json({message: "Valid"})
+    });
+}
 async function loginWithSpotify(request, response) {
     console.info("Trying to login with spotify");
 

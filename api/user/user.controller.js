@@ -1,7 +1,7 @@
 const userService = require("./user.service");
 const socketService = require("../../services/socket.service");
 const logger = require("../../services/logger.service");
-const jwt  = require("jsonwebtoken");
+const jwt = require("jsonwebtoken");
 
 // const logger = require('../../services/logger.service')
 
@@ -17,7 +17,7 @@ module.exports = {
 
 async function getUser(request, response, next) {
     try {
-        console.log(request.query.isSchema)
+        console.log(request.query.isSchema);
         if (request.query.isSchema) {
             const user = await userService.getUserSchemaById(request.params.id);
             console.log('getUserSchemaById');
@@ -39,10 +39,15 @@ async function getUser(request, response, next) {
 async function generateToken(request, response) {
     try {
         // response.json("demo").status(200)
-        const accessToken = jwt.sign(request.user, process.env.ACCESS_TOKEN_SECRET);
-        console.info("generating Token !! ", accessToken);
-        response.send({accessToken, ...request.user}).status(200);
-        
+        const accessToken = jwt.sign(request.user, process.env.ACCESS_TOKEN_SECRET, { expiresIn: "10m" });
+        const refreshToken = jwt.sign(request.user, process.env.REFRESH_TOKEN_SECRET);
+        console.info("generating Token !! ");
+        response
+            .cookie("accessToken", accessToken, { expire: new Date(600000).getMilliseconds() })
+            .cookie("refreshToken", refreshToken, { expire: new Date(600000).getMilliseconds() })
+            .send({ accessToken, refreshToken, ...request.user })
+            .status(200);
+
     } catch (error) {
         logger.error("Failed to get user", error);
         response.status(204).send({ error: "Failed to get user" });

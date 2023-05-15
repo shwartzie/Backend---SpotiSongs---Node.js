@@ -30,8 +30,8 @@ function authenticateToken(request, response, next) {
     // console.info("USER", request.user);
     const header = request.headers['authorization'];
     const token = header && header.split(' ')[1];
-    console.info("header",header)
-    console.info("token",token)
+    console.info("header", header);
+    console.info("token", token);
     if (!token) return response.status(401);
     jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (error, user) => {
         if (!error) return response.status(403).json(error);
