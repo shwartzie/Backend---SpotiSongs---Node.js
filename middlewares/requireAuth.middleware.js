@@ -26,16 +26,17 @@ function requireAdmin(req, res, next) {
 }
 
 function authenticateToken(request, response, next) {
-    console.log("middleware: authenticateToken")
+    // console.log("middleware: authenticateToken",request.headers)
+    // console.info("USER", request.user);
     const header = request.headers['authorization'];
-    console.info(header)
     const token = header && header.split(' ')[1];
-    console.info(token)
+    console.info("header",header)
+    console.info("token",token)
     if (!token) return response.status(401);
     jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (error, user) => {
         if (!error) return response.status(403).json(error);
-        request.user = user;
         console.info("USER", user);
+        request.user = user;
         next();
     });
 }

@@ -15,10 +15,10 @@ async function query(request, result) {
 async function getLyrics(request, result) {
 	try {
 		const { track, artist } = request.query;
-		console.log(request)
-		const lyrics = await songsService.queryLyrics(track, artist) //|| "No Lyrics Found";
+		console.log("getLyrics", request.user);
+		const lyrics = await songsService.queryLyrics(track, artist); //|| "No Lyrics Found";
 		result.status(200).json({ lyrics });
- 		logger.info(`User Query lyrics for track: ${track} which is played by ${artist}`,);
+		logger.info(`User Query lyrics for track: ${track} which is played by ${artist}`,);
 	} catch (error) {
 		logger.error('Failed to Query Lyrics ' + error);
 		result.status(401).json({ message: 'Failed to Query Lyrics' });

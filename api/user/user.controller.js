@@ -20,9 +20,9 @@ async function getUser(request, response, next) {
         console.log(request.query.isSchema)
         if (request.query.isSchema) {
             const user = await userService.getUserSchemaById(request.params.id);
-            console.log('getUserSchemaById', user);
+            console.log('getUserSchemaById');
             request.user = { ...user };
-            next();
+            return next();
         } else {
             const user = await userService.getById(request.params.id);
             if (!user) response.status(204);
@@ -41,7 +41,8 @@ async function generateToken(request, response) {
         // response.json("demo").status(200)
         const accessToken = jwt.sign(request.user, process.env.ACCESS_TOKEN_SECRET);
         console.info("generating Token !! ", accessToken);
-        response.json(accessToken).status(200);
+        response.send({accessToken, ...request.user}).status(200);
+        
     } catch (error) {
         logger.error("Failed to get user", error);
         response.status(204).send({ error: "Failed to get user" });
