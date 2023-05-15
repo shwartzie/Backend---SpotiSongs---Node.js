@@ -1,6 +1,7 @@
 const userService = require("./user.service");
 const socketService = require("../../services/socket.service");
 const logger = require("../../services/logger.service");
+const jwt  = require("jsonwebtoken");
 
 // const logger = require('../../services/logger.service')
 
@@ -37,8 +38,10 @@ async function getUser(request, response, next) {
 
 async function generateToken(request, response) {
     try {
-        console.info("generating Token !! ");
-        response.json("demo_token").status(200);
+        // response.json("demo").status(200)
+        const accessToken = jwt.sign(request.user, process.env.ACCESS_TOKEN_SECRET);
+        console.info("generating Token !! ", accessToken);
+        response.json(accessToken).status(200);
     } catch (error) {
         logger.error("Failed to get user", error);
         response.status(204).send({ error: "Failed to get user" });

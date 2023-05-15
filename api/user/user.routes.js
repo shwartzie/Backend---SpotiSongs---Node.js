@@ -1,5 +1,6 @@
 const express = require("express");
-const { getUser, deleteUser, updateUser, logout, getUsers, addUser,generateToken } = require("./user.controller.js");
+const { getUser, deleteUser, updateUser, logout, getUsers, addUser, generateToken } = require("./user.controller.js");
+
 const router = express.Router();
 
 // middleware that is spec  ific to this router

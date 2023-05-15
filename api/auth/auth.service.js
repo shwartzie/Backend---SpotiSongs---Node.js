@@ -2,7 +2,7 @@ const Cryptr = require("cryptr");
 const bcrypt = require("bcrypt");
 const userService = require("../user/user.service");
 const logger = require("../../services/logger.service");
-const cryptr = new Cryptr(process.env.SECRET1 || "Secret-Orello");
+const cryptr = new Cryptr(process.env.SECRET);
 
 async function login(username, password) {
     // logger.debug(`auth.service - login with username: ${username}`);
