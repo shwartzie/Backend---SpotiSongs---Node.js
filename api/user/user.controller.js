@@ -17,16 +17,18 @@ module.exports = {
 
 async function getUser(request, response, next) {
     try {
-        console.log(request.query.isSchema);
         if (request.query.isSchema) {
             const user = await userService.getUserSchemaById(request.params.id);
-            console.log('getUserSchemaById');
+            console.log('getUserSchemaById',user);
             request.user = { ...user };
             return next();
         } else {
             const user = await userService.getById(request.params.id);
-            if (!user) response.status(204);
             console.log('getUserById', user);
+            if (!user) {
+                response.status(204);
+                return;
+            }
             response.send({ ...user }).status(200);
         }
 
@@ -45,7 +47,7 @@ async function generateToken(request, response) {
         response
             .cookie("accessToken", accessToken, { expire: new Date(600000).getMilliseconds() })
             .cookie("refreshToken", refreshToken, { expire: new Date(600000).getMilliseconds() })
-            .send({ accessToken, refreshToken, ...request.user })
+            .send({...request.user })
             .status(200);
 
     } catch (error) {

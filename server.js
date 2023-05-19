@@ -26,7 +26,7 @@ if (process.env.NODE_ENV === 'production') {
 			'http://localhost:3001',
 			'http://127.0.0.1:3001/'
 		],
-		credentials: true,
+		withCredentials: true,
 		exposedHeaders: ['set-cookie'],
 	};
 	app.use(cors(corsOptions));
