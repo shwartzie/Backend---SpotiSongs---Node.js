@@ -5,7 +5,8 @@ const { response } = require('express');
 module.exports = {
 	query,
 	getLyrics,
-	getTracks
+	getTracks,
+	addTracks
 };
 
 async function query(request, result) {
@@ -23,8 +24,8 @@ async function getLyrics(request, result) {
 	try {
 		const { track, artist } = request.query;
 		// console.log("getLyrics", request);
-		console.log('Cookies: ', JSON.stringify(request.cookies));
-		console.log('Signed Cookies: ', request.signedCookies);
+		// console.log('Cookies: ', JSON.stringify(request.cookies));
+		// console.log('Signed Cookies: ', request.signedCookies);
 		const lyrics = await songsService.queryLyrics(track, artist); //|| "No Lyrics Found";
 		result.status(200).cookie('name', "lol").json({ lyrics });
 		logger.info(`User Query lyrics for track: ${track} which is played by ${artist}`,);
@@ -33,9 +34,9 @@ async function getLyrics(request, result) {
 		result.status(401).json({ message: 'Failed to Query Lyrics' });
 	}
 }
-
-async function getTracks(request, result) {
+async function getTracks(request, response) {
 	try {
+		console.log(request.params)
 		const { id, filterBy } = request.params;
 		// console.info("getTracks", request.params);
 
@@ -44,11 +45,26 @@ async function getTracks(request, result) {
 		// 	return;
 		// }
 		const tracks = await songsService.queryTracks(id, filterBy);
-		response.status(200).send(tracks);
+		response.status(200).send({ tracks });
 	} catch (error) {
 		logger.error('Failed to Query Tracks ' + error);
-		result.status(204).json({ message: 'Failed to Query Tracks' + error});
+		response.status(204).json({ message: 'Failed to Query Tracks' + error });
 		return;
+	}
+}
+async function addTracks(request, result) {
+	try {
+		// console.log(request.params)
+		const { id: userId } = request.params;
+		const { tracks } = request.body;
+
+		// const response = await songsService.add(userId, tracks);
+		// logger.info(`Response after adding tracks: ${response}`)
+		result.status(200).json({ message: "Successfully added tracks" });
+
+	} catch (error) {
+		logger.error(`Failed to add tracks ${error}`);
+		result.status(500).json({ message: `Failed to add tracks ${error}` });
 	}
 }
 

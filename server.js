@@ -5,11 +5,11 @@ const cookieParser = require('cookie-parser');
 
 const app = express();
 const http = require('http').createServer(app);
-const bodyParser = require('body-parser');
+
 require('dotenv').config();
 // Express App Config
 app.use(cookieParser());
-app.use(express.json());
+app.use(express.json({ limit: '50mb' }));
 app.use(express.static('public'));
 app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ limit: '50mb' }));
@@ -46,7 +46,8 @@ app.use('/api/user', userRoutes);
 const songsRoutes = require('./api/songs/songs.routes');
 app.use('/api/songs', songsRoutes);
 // const { setupSocketAPI } = require('./services/socket.service');
-
+const albumRoutes = require('./api/album/album.routes');
+app.use('/api/albums', albumRoutes);
 // routes
 // const setupAsyncLocalStorage = require('./middlewares/setupAls.middleware')
 // app.all('*', setupAsyncLocalStorage)

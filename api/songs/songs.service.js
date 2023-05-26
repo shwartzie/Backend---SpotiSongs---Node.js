@@ -2,7 +2,7 @@
 const fs = require('fs');
 const lyricsFinder = require('lyrics-finder');
 const path = require('path');
-const loggerService = require('../../services/logger.service');
+const logger = require('../../services/logger.service');
 const { knex } = require("../../services/db.service");
 const filePath = path.join(__dirname, '..', '..', 'data', 'genres.json');
 
@@ -36,40 +36,26 @@ function _readFile() {
 
 async function queryTracks(userId, filterBy) {
     try {
-        const tracks = await knex("likedsongs")
-            .columns(
-                "album",
-                "artists",
-                "available_markets",
-                "disc_number",
-                "duration_ms",
-                "explicit",
-                "external_ids",
-                "external_urls",
-                "href",
-                "id",
-                "is_local",
-                "name",
-                "popularity",
-                "preview_url",
-                "track_number",
-                "type",
-                "uri",
-            ).where({ user_id: userId });
-        loggerService.info(`QueryTracks: ${tracks}`);
+        const tracks = await knex("tracks")
+            .where({ user_id: userId });
+
+        logger.info(`QueryTracks: ${tracks}`);
         return tracks;
     } catch (error) {
         console.error(error);
-        return;
+        throw error;
     }
 }
 
-async function add(userId, values) {
+async function add(userId, tracks) {
     try {
-        // const isSuccess = await knex("likedSongs")
-        //     .insert({email: req.body.email});
-        return tracks;
-    } catch (error) {
+        const response = await knex("tracks")
+            .insert([...tracks]);
+        return response;
 
+    } catch (error) {
+        console.error(error);
+        throw error;
     }
 }
+

@@ -10,7 +10,8 @@ module.exports = {
     remove,
     update,
     add,
-    getUserSchemaById
+    getUserSchemaById,
+    getUserSerialId
 };
 
 async function query(collectionName) {
@@ -33,24 +34,31 @@ async function query(collectionName) {
     }
 }
 
+async function getUserSerialId(userId) {
+    try {
+        const _id = await knex('users').column('_id').where({ external_id: userId });
+        return _id[0]
+    } catch (error) {
+        logger.error(`Failed To Fetch Serial Id ${error}`);
+        throw error;
+    }
+
+}
 async function getById(userId) {
     try {
         const user = await knex('users')
-            .columns('id')
-            .where({ id: userId });
+            .columns('external_id')
+            .where({ "external_id": userId });
         return user[0];
     } catch (error) {
-        logger.error(`while finding user by id: ${userId}`, error);
+        logger.error(`while finding user by external_id: ${userId}`, error);
         throw error;
     }
 }
 
 async function getUserSchemaById(userId) {
     try {
-        const user = await knex('users')
-            .columns('id', 'fullname', 'email', 'country',
-                'href', 'images', 'product', 'uri', 'followers')
-            .where({ id: userId });
+        const user = await knex('users').where({ external_id: userId });
         return user[0];
     } catch (error) {
         logger.error(`while finding user by id: ${userId}`, error);
