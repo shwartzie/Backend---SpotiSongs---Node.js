@@ -1,4 +1,4 @@
-const albumService = require('./album.service');
+const albumService = require('./services/album.service');
 const logger = require('../../services/logger.service');
 
 module.exports = {
@@ -25,8 +25,13 @@ async function addAlbums(request, result) {
         // console.log(request.params)
         const { id: userId } = request.params;
         const { albums } = request.body;
-        // const response = await albumService.add(albums);
-        // logger.info(`Response after adding albums: ${response}`);
+        let response;
+        if (userId) {
+            response = await albumService.add(albums, userId);
+        } else {
+            response = await albumService.add(albums, null);
+        }
+        logger.info(`Response after adding albums: ${response}`);
         result.status(200).json({ message: "Successfully added albums" });
 
     } catch (error) {

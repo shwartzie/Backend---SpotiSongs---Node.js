@@ -7,12 +7,18 @@ module.exports = {
     add
 };
 
-async function add(albums) {
-    logger.info('adding albums...',albums[0]);
+async function add(albums, userId) {
+    logger.info('adding albums...', albums[0]);
     try {
-        const response = await knex("user_albums")
-            .insert([...albums])
-        return response;
+        if (!userId) {
+            return await knex("user_albums")
+                .insert([...albums]);
+        } else {
+            return await knex("albums")
+                .insert([...albums])
+                .onConflict("external_id")
+                .ignore();
+        }
     } catch (error) {
         logger.error(error);
         throw error;
