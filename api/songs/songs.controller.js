@@ -5,7 +5,7 @@ const { response } = require('express');
 module.exports = {
 	query,
 	getLyrics,
-	getTracks,
+	getUserTracks,
 	addTracks
 };
 
@@ -34,9 +34,9 @@ async function getLyrics(request, result) {
 		result.status(401).json({ message: 'Failed to Query Lyrics' });
 	}
 }
-async function getTracks(request, response) {
+async function getUserTracks(request, response) {
 	try {
-		console.log(request.params)
+		console.log(request.params);
 		const { id, filterBy } = request.params;
 		// console.info("getTracks", request.params);
 
@@ -57,9 +57,13 @@ async function addTracks(request, result) {
 		// console.log(request.params)
 		const { id: userId } = request.params;
 		const { tracks } = request.body;
-
-		// const response = await songsService.add(userId, tracks);
-		// logger.info(`Response after adding tracks: ${response}`)
+		let response;
+		if (userId) {
+			response = await songsService.add(userId, tracks);
+		} else {
+			response = await songsService.add(null, tracks);
+		}
+		logger.info(`Response after adding tracks: ${response}`);
 		result.status(200).json({ message: "Successfully added tracks" });
 
 	} catch (error) {

@@ -1,7 +1,7 @@
-const dbService = require("../../services/db.service");
-const logger = require("../../services/logger.service");
+const dbService = require("../../../services/db.service");
+const logger = require("../../../services/logger.service");
 
-const { knex } = require("../../services/db.service");
+const { knex } = require("../../../services/db.service");
 
 module.exports = {
     query,

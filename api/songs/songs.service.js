@@ -49,9 +49,17 @@ async function queryTracks(userId, filterBy) {
 
 async function add(userId, tracks) {
     try {
-        const response = await knex("tracks")
-            .insert([...tracks]);
-        return response;
+        if (userId) {
+            const response = await knex("user_tracks")
+                .insert([...tracks]).where({user_id: userId});
+            return response;
+        } else {
+            const response = await knex("tracks")
+                .insert([...tracks])
+                .onConflict("external_id")
+                .ignore()
+            return response;
+        }
 
     } catch (error) {
         console.error(error);
